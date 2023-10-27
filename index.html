@@ -1,34 +1,45 @@
+
 <!DOCTYPE html> 
-<html lang="en"> 
+<html> 
   
 <head> 
-    <meta charset="UTF-8"> 
-    <meta http-equiv="X-UA-Compatible" 
-          content="IE=edge"> 
-    <meta name="viewport" 
-          content="width=device-width, initial-scale=1.0"> 
-    <title>Note App</title> 
-    <link rel="stylesheet" href="./style.css"> 
+    <title>Age Calculator</title> 
+    <link rel="stylesheet" 
+          href="style.css" /> 
 </head> 
   
 <body> 
-    <div class="btn"> 
-        <div class="heading"> 
-            <h1>Note Taking App</h1> 
-        </div> 
-        <button id="addBtn"> 
-            <i class="fas fa-plus"></i> 
-            Add Note 
-        </button> 
-    </div> 
-    <div id="main"> 
+    <div class="card"> 
+        <header> 
+            <h1>AGE CALCULATOR</h1> 
+        </header> 
   
+        <div> 
+            <label>Enter your Date of Birth</label> 
+  
+            <input id="inputDob" 
+                   type="date" 
+                   value="2000-01-01" /> 
+        </div> 
+        <br /> 
+  
+        <!-- Take the date from which age is to be calculated -->
+        <div> 
+            <label>Current Date</label><br> 
+            <input id="cdate"
+                   type="date" 
+                   value="" /> 
+        </div> 
+        <br /> 
+  
+        <button type="button" 
+                onclick="getDOB()"> 
+            Calculate 
+        </button> 
+        <br /> 
+        <div id="currentAge"></div> 
+        <script src="script.js"></script> 
     </div> 
-    <script src= 
-"https://2.png/f520e6492.js" 
-            crossorigin="anonymous"> 
-      </script> 
-    <script src="./script.js"></script> 
 </body> 
   
 </html>

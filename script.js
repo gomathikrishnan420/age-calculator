@@ -1,97 +1,68 @@
-const addBtn = document.querySelector("#addBtn"); 
-const main = document.querySelector("#main"); 
+function getDOB() { 
   
-// Click event listener 
-addBtn.addEventListener("click", function () { 
-    addNote(); 
-}); 
+    // Getting input from html input element 
+    let data = 
+        document.getElementById("inputDob").value; 
   
-// Save button function 
-const saveNotes = () => { 
+    // Convert input data to usable format 
+    // as day,month and year 
+    let dob = new Date(data); 
+    let day = dob.getDate(); 
+    let month = dob.getMonth(); 
+    let year = dob.getFullYear(); 
   
-    // Select content textareas 
-    const notes =  
-        document.querySelectorAll(".note .content");  
-          
-    // Select title textareas 
-    const titles =  
-        document.querySelectorAll(".note .title");  
+    // Getting current date and calculating the difference 
+    let now = 
+        new Date(document.getElementById("cdate").value); 
+    console.log(now); 
+    let yearDiff = now.getFullYear() - year; 
+    let monthDiff = now.getMonth() - month; 
+    let dateDiff = now.getDate() - day; 
   
-    const data = []; 
-  
-    notes.forEach((note, index) => { 
-        const content = note.value; 
-        const title = titles[index].value; 
-        console.log(title); 
-        if (content.trim() !== "") { 
-            data.push({ title, content }); 
-        } 
-    }); 
-  
-    const titlesData =  
-        data.map((item) => item.title); 
-    console.log(titlesData); 
-    localStorage.setItem( 
-        "titles", JSON.stringify(titlesData)); 
-  
-    const contentData =  
-        data.map((item) => item.content); 
-    localStorage.setItem( 
-        "notes", JSON.stringify(contentData)); 
-}; 
-  
-// Addnote button function 
-const addNote = (text = "", title = "") => { 
-    const note = document.createElement("div"); 
-    note.classList.add("note"); 
-    note.innerHTML = ` 
-    <div class="icons"> 
-         <i class="save fas fa-save" 
-             style="color:red"> 
-         </i> 
-         <i class="trash fas fa-trash" 
-             style="color:yellow"> 
-         </i>  
-    </div> 
-    <div class="title-div"> 
-        <textarea class="title" 
-            placeholder="Write the title ...">${title} 
-        </textarea> 
-    </div> 
-    <textarea class="content" 
-        placeholder="Note down your thoughts ...">${text} 
-    </textarea> 
-    `; 
-    function handleTrashClick() { 
-        note.remove(); 
-        saveNotes(); 
+    // Calculating the Age 
+    if (yearDiff < 0) console.log("invalid date"); 
+    else if (monthDiff > 0) { 
+        console.log(yearDiff); 
+    } else if (monthDiff === 0 && dateDiff >= 0) { 
+        console.log(yearDiff); 
+    } else { 
+        yearDiff = yearDiff - 1; 
+        if (monthDiff <= 0) 
+            if (dateDiff > 0) monthDiff = 12 + monthDiff; 
+            else monthDiff = 11 - monthDiff; 
     } 
-    function handleSaveClick() { 
-        saveNotes(); 
+    if (dateDiff < 0) { 
+        dateDiff = 30 + dateDiff; 
+        monthDiff -= 1; 
     } 
-    const delBtn = note.querySelector(".trash"); 
-    const saveButton = note.querySelector(".save"); 
-    const textareas = note.querySelectorAll("textarea"); 
   
-    delBtn.addEventListener("click", handleTrashClick); 
-    saveButton.addEventListener("click", handleSaveClick); 
-    main.appendChild(note); 
-    saveNotes(); 
-}; 
-  
-// Loading all the notes those are saved in  
-// the localstorage 
-function loadNotes() { 
-  
-    const titlesData =  
-        JSON.parse(localStorage.getItem("titles")) || []; 
-    const contentData =  
-        JSON.parse(localStorage.getItem("notes")) || []; 
-          
-    for (let i = 0;  
-            i < Math.max( 
-                titlesData.length, contentData.length); i++) { 
-        addNote(contentData[i], titlesData[i]); 
-    } 
+    // Show calculated age as output 
+    // and invalid if wrong input is given 
+    if (yearDiff < 0) 
+        document.getElementById("currentAge").innerHTML = "Invalid Date"; 
+    else
+        document.getElementById("currentAge").innerHTML = 
+            "Your current Age is " + yearDiff + " years "
+            + monthDiff + " months " + dateDiff + " days"; 
 } 
-loadNotes();
+  
+// Function to provide default date value 
+function currentDate() { 
+    console.log(formatted()); 
+    let d = document.getElementById("cdate"); 
+    d.value = formatted(); 
+} 
+  
+function formatted(date = new Date()) { 
+    return [ 
+        date.getFullYear(), 
+        short(date.getMonth() + 1), 
+        short(date.getDate()), 
+    ].join("-"); 
+} 
+function short(num) { 
+    return num.toString().padStart(2, "0"); 
+} 
+  
+// Calling current date function to set default date value 
+currentDate();
